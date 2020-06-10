@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+</head>
+<body >
+    <div style="background:#FF4B1B;" class="row p-3">
+        <div class="col-12 text-center text-white">
+            <h1>{{someVar1}}</h1>
+            <h2>{{someVar2}}</h2>
+        </div>
+    </div>
+    <table class="table table-dark table-striped">
+      <tbody>
+        {{#each invoiceData}}
+        <tr>
+          <th scope="row" >{{this.invoiceNum}}</th>
+          <td>{{this.invoiceTotal}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+</table>
+</body>
+</html>

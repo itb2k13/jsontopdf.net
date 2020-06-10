@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-168911656-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+
+		gtag('config', 'UA-168911656-1');
+	</script>
+
+	<title>JsonToPdf - A simple API for converting JSON data into PDF documents</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+		  integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<style type="text/css" media="screen">
+		#editor,
+		#htmlEditor {
+			position: relative;
+			width: 100%;
+			height: 400px;
+		}
+
+		body, html {
+			height: 100%;
+		}
+
+		body {
+			background-image: linear-gradient(14deg, #26c6db 0%, #2694db 100%);
+		}
+	</style>
+</head>
+
+<body class="">
+
+	<div class="p-3 text-white">
+		<div>
+			<h1 class="display-4">JsonToPdf</h1>
+			<p class="lead">A simple API for converting JSON data into PDF documents using HTML templates</p>
+			<hr class="my-4">
+	
+				<div class="row">
+					<div class="col-12 col-md-6">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title">JSON Data</h5>
+								<h6 class="card-subtitle mb-2 text-muted">Edit or paste your JSON data below</h6>
+								<div id="editor"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-12 col-md-6">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title">2. HTML Template</h5>
+								<h6 class="card-subtitle mb-2 text-muted">Edit or paste your HTML template below</h6>
+								<div id="htmlEditor"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-12 text-center mt-3">
+						<button id="submit" type="button" onclick="convert();" class="btn btn-success btn-lg">
+							<i class="fa fa-file"></i> Convert to PDF
+						</button>
+					</div>
+				</div>
+
+			
+		</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+			integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+			crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+			integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+			crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.5/ace.js" type="text/javascript"
+			charset="utf-8"></script>
+	<script>
+
+		var editor = ace.edit("editor");
+		editor.setTheme("ace/theme/monokai");
+		editor.session.setMode("ace/mode/json");
+		editor.setHighlightActiveLine(false);
+		editor.setShowPrintMargin(false);
+		editor.setFontSize(18);		
+
+		var htmlEditor = ace.edit("htmlEditor");
+		htmlEditor.setTheme("ace/theme/monokai");
+		htmlEditor.session.setMode("ace/mode/html");
+		htmlEditor.setHighlightActiveLine(false);
+		htmlEditor.setShowPrintMargin(false);
+		htmlEditor.setFontSize(18);		
+
+        $.ajax({
+            type: "GET",
+            url: "demo.html",
+            success: function (data) {
+				htmlEditor.setValue(data);
+                htmlEditor.clearSelection();
+            }
+		});
+
+        $.ajax({
+            type: "GET",
+            url: "demo.json",
+            success: function (data) {
+				editor.setValue(JSON.stringify(data, null, '\t'));
+                editor.clearSelection();
+            }
+        });
+
+		var convert = function () {
+
+			$.ajax({
+				type: "POST",
+				url: "api/v1/values",
+				data: JSON.stringify({ "Data": editor.getValue(), "Template": htmlEditor.getValue() }),		
+				beforeSend: function () { $('#submit').addClass('disabled'); },
+				success: function (data) {
+					window.open(data);
+                    $('#submit').removeClass('disabled');
+				},
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				}
+			});
+
+		};
+	</script>
+</body>
+
+</html>

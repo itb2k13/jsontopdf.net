@@ -1,0 +1,18 @@
+﻿{
+  "someVar1": "Invoice Report",
+  "someVar2": "Test Co.",
+  "invoiceData": [
+    {
+      "invoiceNum": "abc1234",
+      "invoiceTotal": "3141.59"
+    },
+    {
+      "invoiceNum": "abc1235",
+      "invoiceTotal": "1618.03"
+    },
+    {
+      "invoiceNum": "abc1236",
+      "invoiceTotal": "2718.28"
+    }
+  ]
+}
