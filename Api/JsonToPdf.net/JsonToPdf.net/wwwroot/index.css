@@ -1,0 +1,14 @@
+#editor,
+#htmlEditor {
+	position: relative;
+	width: 100%;
+	height: 400px;
+}
+
+body, html {
+	height: 100%;
+}
+
+body {
+	background-image: linear-gradient(14deg, #26c6db 0%, #2694db 100%);
+}
