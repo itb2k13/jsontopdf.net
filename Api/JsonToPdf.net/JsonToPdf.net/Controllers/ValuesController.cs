@@ -23,6 +23,13 @@ namespace JsonToPdf.net.Controllers
             _converter = converter;
         }
 
+        [HttpGet]
+        [Route("status")]
+        public async Task<ActionResult> Status()
+        {
+            return await Task.FromResult(Ok());
+        }
+
         [HttpPost]
         public async Task<ActionResult<string>> Post([FromBody] Request value)
         {
